@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-require('./Car');
+const Car = require('./Car');
 
 
 const connectionString = 'mongodb://localhost:27017/carsforsale';

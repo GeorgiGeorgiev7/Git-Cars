@@ -50,5 +50,5 @@ async function start() {
     app.all('*', notFound);
 
     app.listen(port, () =>
-        console.log(`Server listening on port: ${port} ...`));
+        console.log(`>>> Server listening on port: ${port}`));
 }

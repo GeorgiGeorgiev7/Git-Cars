@@ -1,8 +1,9 @@
-const fs = require('fs/promises');
+// const fs = require('fs/promises');
+const Car = require('../models/Car');
 
 
-const filepath = './services/data.json';
-
+//const filepath = './services/data.json';
+/*
 async function read() {
     try {
         const file = await fs.readFile(filepath);
@@ -23,8 +24,39 @@ async function write(data) {
         process.exit(1);
     }
 }
+*/
+
+function carViewModel(car) {
+    return {
+        id: car._id,
+        name: car.name,
+        description: car.description,
+        imageUrl: car.imageUrl,
+        price: car.price
+    };
+}
 
 async function getAll(query) {
+    const options = {};
+
+    if (query.search) {
+        options.name = new RegExp(query.search, 'i');
+    }
+
+    if (query.from) {
+        options.price = { $gte: Number(query.from) };
+    }
+
+    if (query.to) {
+        if (!options.price) {
+            options.price = {};
+        }
+        options.price = { $lte: Number(query.to) };
+    }
+
+    const cars = await Car.find(options);
+    return cars.map(carViewModel);
+    /*
     const data = await read();
     let cars = Object
         .entries(data)
@@ -42,11 +74,17 @@ async function getAll(query) {
     if (query.to) {
         cars = cars.filter(c => Number(c.price) <= Number(query.to));
     }
-
-    return cars;
+    */
 }
 
 async function getById(id) {
+    const car = await Car.findById(id);
+    if (car) {
+        return carViewModel(car);
+    } else {
+        return undefined;
+    }
+    /*
     const data = await read();
     const car = data[id];
 
@@ -55,9 +93,13 @@ async function getById(id) {
     } else {
         return undefined;
     }
+    */
 }
 
 async function createCar(car) {
+    const result = new Car(car);
+    await result.save();
+    /*
     const cars = await read();
     let id = nextId();
 
@@ -68,10 +110,12 @@ async function createCar(car) {
     cars[id] = car;
 
     await write(cars);
-
+    */
 }
 
 async function deleteById(id) {
+    await Car.findByIdAndDelete(id);
+    /*
     const data = await read();
 
     if (data.hasOwnProperty(id)) {
@@ -80,9 +124,12 @@ async function deleteById(id) {
     } else {
         throw new Error('No such ID in database');
     }
+    */
 }
 
 async function editById(id, car) {
+    await Car.findByIdAndUpdate(id, car);
+    /*
     const data = await read();
 
     if (data.hasOwnProperty(id)) {
@@ -91,12 +138,15 @@ async function editById(id, car) {
     } else {
         throw new Error('No such ID in database');
     }
+    */
 }
 
+/*
 function nextId() {
     return 'xxxxxxxx-xxxx'.replace(/x/g, () =>
         (Math.random() * 16 | 0).toString(16));
 }
+*/
 
 module.exports = () => (req, res, next) => {
     req.storage = {
