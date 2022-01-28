@@ -1,8 +1,8 @@
 <h1>{{car.name}}</h1>
-<img class="cube"
-  src="/static/images/{{car.imageUrl}}">
+<img class="cube" src="/static/images/{{car.imageUrl}}">
 <div class="details">
   <p><span>Description:</span>{{car.description}}</p>
   <p><span>Price:</span> {{car.price}} £</p>
   <a class="btn" href="/">Back</a>
+  <a class="btn" href="/delete/{{car.id}}">Delete</a>
 </div>

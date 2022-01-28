@@ -29,7 +29,7 @@ async function getAll(query) {
     let cars = Object
         .entries(data)
         .map(([id, v]) => Object.assign({}, { id }, v));
-    
+
     if (query.search) {
         cars = cars.filter(c => c.name.toLocaleLowerCase()
             .includes(query.search.toLocaleLowerCase()));
@@ -71,6 +71,17 @@ async function createCar(car) {
 
 }
 
+async function deleteById(id) {
+    const data = await read();
+
+    if (data.hasOwnProperty(id)) {
+        delete data[id];
+        await write(data);
+    } else {
+        throw new Error('No such ID in database');
+    }
+}
+
 function nextId() {
     return 'xxxxxxxx-xxxx'.replace(/x/g, () =>
         (Math.random() * 16 | 0).toString(16));
@@ -80,7 +91,8 @@ module.exports = () => (req, res, next) => {
     req.storage = {
         getAll,
         getById,
-        createCar
+        createCar,
+        deleteById
     };
     next();
 };
