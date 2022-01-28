@@ -9,8 +9,13 @@ module.exports = {
             imageUrl: req.body.imageUrl,
             price: Number(req.body.price)
         };
-        await req.storage.createCar(car);
-        res.redirect('/');
+        try {
+            await req.storage.createCar(car);
+            res.redirect('/');
+        } catch (err) {
+            console.log('>>>', err.message);
+            res.redirect('/404');
+        }
     },
 
 }

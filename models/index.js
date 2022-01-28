@@ -14,11 +14,6 @@ async function init() {
 
         console.log('>>> Database connected');
 
-        mongoose.connection.on('error', (err) => {
-            console.log('>>> Database error');
-            console.log(err);
-        });
-
     } catch (err) {
         console.log('>>> Error connecting to database');
         process.exit(1);
