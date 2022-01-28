@@ -4,17 +4,22 @@ module.exports = {
         const car = await req.storage.getById(id);
 
         if (car) {
-            res.render('delete.hbs',
-                { title: `Delete Listing - ${car.name}`, car });
+            res.render('edit.hbs',
+                { title: `Edit Listing - ${car.name}`, car });
         } else {
             res.redirect('/404');
         }
     },
     async post(req, res) {
         const id = req.params.id;
-
+        const car = {
+            name: req.body.name,
+            description: req.body.description,
+            imageUrl: req.body.imageUrl,
+            price: Number(req.body.price)
+        };
         try {
-            await req.storage.deleteById(id);
+            await req.storage.editById(id, car);
             res.redirect('/');
         } catch (err) {
             res.redirect('/404');
