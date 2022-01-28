@@ -1,27 +1,7 @@
-// [x] init Express app
-// [x] init templating lib
-// [x] create home controller 
-// [x] bind routing
-// [x] create layout
-// create data service
-// - [x] read all
-// - [x] read by id
-// - [x] create
-// - [x] edit
-// - [x] delete
-// - [x] search
-// implement controller
-// - [x] home
-// - [x] about
-// - [x] details
-// - [x] create
-// - [x] search
-// - [x] edit
-// - [x] delete
-// [x] add front-end code
-
 const express = require('express');
 const hbs = require('express-handlebars');
+
+const initDB = require('./models/index');
 
 const { about } = require('./controllers/about');
 const create = require('./controllers/create');
@@ -34,36 +14,41 @@ const edit = require('./controllers/edit');
 const carsService = require('./services/cars');
 
 
-const port = 3000;
-const app = express();
+start()
 
-app.engine('.hbs', hbs.create({
-    extname: '.hbs'
-}).engine);
+async function start() {
+    await initDB();
 
-app.use(express.urlencoded({ extended: true }));
-app.use('/static', express.static('static'));
-app.use(carsService());
+    const port = 3000;
+    const app = express();
 
-app.get('/', home);
-app.get('/about', about);
+    app.engine('.hbs', hbs.create({
+        extname: '.hbs'
+    }).engine);
 
-app.route('/create')
-    .get(create.get)
-    .post(create.post);
+    app.use(express.urlencoded({ extended: true }));
+    app.use('/static', express.static('static'));
+    app.use(carsService());
 
-app.route('/delete/:id')
-    .get(del.get)
-    .post(del.post);
+    app.get('/', home);
+    app.get('/about', about);
 
-app.route('/edit/:id')
-    .get(edit.get)
-    .post(edit.post);
+    app.route('/create')
+        .get(create.get)
+        .post(create.post);
 
-app.get('/details/:id', details);
+    app.route('/delete/:id')
+        .get(del.get)
+        .post(del.post);
 
+    app.route('/edit/:id')
+        .get(edit.get)
+        .post(edit.post);
 
-app.all('*', notFound);
+    app.get('/details/:id', details);
 
-app.listen(port, () =>
-    console.log(`Server listening on port: ${port} ...`));
+    app.all('*', notFound);
+
+    app.listen(port, () =>
+        console.log(`Server listening on port: ${port} ...`));
+}
