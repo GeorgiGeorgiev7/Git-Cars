@@ -16,7 +16,7 @@ async function getAll(query) {
         if (!options.price) {
             options.price = {};
         }
-        options.price = { $lte: Number(query.to) };
+        options.price['$lte'] = Number(query.to);
     }
 
     const cars = await Car.find(options);
