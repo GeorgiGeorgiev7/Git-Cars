@@ -11,14 +11,16 @@ header ul {
 }
 
 img {
-    height: 200px;
-    width: auto;
+    object-fit: cover;
+    width: 200px;
+    height: auto;
 }
 
 img.cube {
     display: block;
     margin: 0 auto;
     text-align: center;
+    height: 150px;
 }
 
 img.logo {
@@ -74,6 +76,7 @@ div.cube {
     background: white;
     vertical-align: top;
     width: 250px;
+    height: 500px;
 }
 
 div.cube:hover p.name {
@@ -106,10 +109,18 @@ button, main a.btn {
     color: white;
 }
 
+.details a.btn{
+    width: 28%;
+}
+
 button:hover {
     background-color: #0B2133;
     color: white;
     cursor: pointer;
+}
+
+a.btn:hover{
+    text-decoration: underline;
 }
 
 a {
@@ -160,7 +171,7 @@ input[type=text],
 input[type=number],
 select,
 textarea {
-    width: 100%;
+    width: 40%;
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
@@ -174,7 +185,7 @@ input.price {
 }
 
 input.search {
-    width: 50%;
+    width: 100%;
 }
 
 input[type=submit] {
