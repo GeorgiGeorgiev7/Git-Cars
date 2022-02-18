@@ -5,7 +5,3 @@
    - Put some cool description
    - Set a price
  - Search and filter by price
-<br/>
-<br/>
-Resources from SoftUni: <br/>
-- site.css
